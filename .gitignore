@@ -1,0 +1,21 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# 変数ファイル (alert_email 等の個人情報を含むため)
+*.tfvars
+!terraform.tfvars.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 会話ログ (ローカル保存のみ)
+client/logs/
+
+# macOS
+.DS_Store
