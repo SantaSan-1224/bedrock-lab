@@ -153,6 +153,15 @@ python mini_rag.py --profile bedrock-lab --search vectors --verbose
 
 各 ID は `terraform output` で取得できる。3方式 (RetrieveAndGenerate / Retrieve+Converse / フル自前) の挙動・性能差は [docs/rag_comparison.md](docs/rag_comparison.md) 参照。
 
+### 7. チャット UI (おまけ)
+
+```bash
+cd client && source .venv/bin/activate
+streamlit run app.py
+```
+
+ブラウザ (localhost:8501) でチャット画面が開く。サイドバーで RAG モード切替・モデル選択・検索件数を変更できる。RAG バックエンドは方式② (Retrieve + 自前合成) のため、「〜だけ詳しく」のような絞り込みフォローアップに追従する。追加の AWS リソースは不要。
+
 ## 監査・可観測性の確認
 
 | 観点 | 確認先 |
