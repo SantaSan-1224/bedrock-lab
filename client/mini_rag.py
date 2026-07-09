@@ -270,7 +270,7 @@ def main() -> int:
 
     mode_label = "② KB Retrieve + 自前合成" if args.search == "kb" else "③ フル自前 (S3 Vectors 直叩き)"
     print(f"ミニ RAG 対話モード (方式{mode_label} / model: {MODEL_ID})")
-    print("Ctrl-D で終了")
+    print("/quit または Ctrl-D で終了")
     while True:
         try:
             query = input("\nmini-rag> ").strip()
@@ -278,6 +278,12 @@ def main() -> int:
             print()
             break
         if not query:
+            continue
+        # "/" 始まりはコマンド扱いにして、誤って RAG に送信しない
+        if query.startswith("/"):
+            if query in ("/quit", "/exit"):
+                break
+            print("コマンドは /quit のみです (Ctrl-D でも終了できます)")
             continue
         rag.ask(query)
 
