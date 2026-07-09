@@ -4,7 +4,9 @@
 
 - 自宅用 Bedrock GenAI 環境 (ホームラボ / 学習)。業務 PJ ではない
 - 目的: Bedrock を AWS ガバナンス (IAM・監査・コスト) に正しく組み込む経験
-- 現在 Phase 1 (素のモデル利用 + AWS らしい配線)。計画全文は `docs/plan_phase1.md`
+- **Phase 1 完了** (素のモデル利用、`phase1` タグ)。**Phase 2 (RAG) M1-M5 完了** — KB + S3 Vectors (COSGI2LQOF)、Qiita 35記事+lab-docs 投入済み、chat.py RAGモード + mini_rag.py (3方式)。実測比較は `docs/rag_comparison.md`。残 = M6 Streamlit UI (おまけ)
+- Phase 2 の禁止事項: **本業の顧客情報・PJ資料は投入しない** (公開記事と個人メモのみ)
+- Phase 2 の運用知見: 自作 S3 Vectors インデックスは non-filterable に AMAZON_BEDROCK_TEXT + AMAZON_BEDROCK_METADATA の2つ必須 / カスタムメタデータ 1KB制限 / QueryVectors+returnMetadata には GetVectors 権限 / KB Retrieve は結合チャンクを返す (生チャンクの数倍)
 
 ## 確定事項 (Phase 1)
 

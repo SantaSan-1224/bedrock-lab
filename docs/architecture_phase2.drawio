@@ -1,0 +1,131 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="bedrock_lab_phase2" name="architecture">
+    <mxGraphModel dx="1100" dy="720" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="720" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- AWS Cloud 枠 -->
+        <mxCell id="awscloud" value="AWS Cloud (アカウント)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=1;container=0;pointerEvents=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" parent="1" vertex="1">
+          <mxGeometry x="200" y="30" width="880" height="660" as="geometry" />
+        </mxCell>
+
+        <!-- 東京リージョン枠 -->
+        <mxCell id="tokyo" value="東京 (ap-northeast-1)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=0;pointerEvents=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#00A4A6;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="130" width="600" height="530" as="geometry" />
+        </mxCell>
+
+        <!-- 大阪リージョン枠 -->
+        <mxCell id="osaka" value="大阪 (ap-northeast-3)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=0;pointerEvents=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#00A4A6;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="880" y="130" width="180" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- 開発端末 -->
+        <mxCell id="user" value="開発端末&#10;chat.py / mini_rag.py" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws4.user;" parent="1" vertex="1">
+          <mxGeometry x="60" y="280" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- IAM -->
+        <mxCell id="iam" value="IAM ロール bedrock-lab-user (最小権限)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.identity_and_access_management;" parent="1" vertex="1">
+          <mxGeometry x="300" y="50" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Bedrock -->
+        <mxCell id="bedrock" value="Amazon Bedrock&#10;Converse / RetrieveAndGenerate" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#4AB29A;gradientDirection=north;fillColor=#116D5B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.bedrock;" parent="1" vertex="1">
+          <mxGeometry x="290" y="200" width="70" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Claude 東京 -->
+        <mxCell id="claude_tokyo" value="Claude&#10;jp.anthropic.*&#10;(Sonnet 4.6 ほか)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="680" y="200" width="120" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Claude 大阪 -->
+        <mxCell id="claude_osaka" value="Claude&#10;(同一モデル群)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="910" y="200" width="120" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Knowledge Base -->
+        <mxCell id="kb" value="Knowledge Base&#10;(チャンキング・同期・検索)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D4EFDF;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;dashed=0;" parent="1" vertex="1">
+          <mxGeometry x="280" y="360" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Titan Embeddings -->
+        <mxCell id="titan" value="Titan Text&#10;Embeddings V2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="360" width="110" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- S3 原本 -->
+        <mxCell id="s3_source" value="S3: kb-source&#10;原本 .md +&#10;メタデータサイドカー" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" parent="1" vertex="1">
+          <mxGeometry x="290" y="480" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- S3 Vectors -->
+        <mxCell id="s3vectors" value="S3 Vectors&#10;vector bucket + index&#10;(固定費ゼロ)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" parent="1" vertex="1">
+          <mxGeometry x="490" y="480" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- invocation logs -->
+        <mxCell id="logs" value="invocation logging&#10;S3 (90日) + CWL (30日)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F34482;gradientDirection=north;fillColor=#B0084D;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+          <mxGeometry x="680" y="480" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Budgets -->
+        <mxCell id="budgets" value="AWS Budgets&#10;$10/月 3段階通知" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.budgets;" parent="1" vertex="1">
+          <mxGeometry x="930" y="480" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: 端末 → Bedrock -->
+        <mxCell id="e1" value="① Converse&#10;①' RetrieveAndGenerate&#10;② Retrieve" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#232F3E;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="bedrock" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: 端末 → S3 Vectors (③直叩き) -->
+        <mxCell id="e2" value="③ QueryVectors&#10;(自前ミニRAG)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#277116;dashed=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" parent="1" source="user" target="s3vectors" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: 端末 → IAM -->
+        <mxCell id="e3" value="sts:AssumeRole" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#C7131F;dashed=1;exitX=0.5;exitY=0;entryX=0;entryY=0.5;" parent="1" source="user" target="iam" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: Bedrock → Claude東京 -->
+        <mxCell id="e4" value="jp.anthropic.*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#116D5B;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="bedrock" target="claude_tokyo" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: Claude東京 ⇔ 大阪 -->
+        <mxCell id="e5" value="AWS網内で完結" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#116D5B;dashed=1;startArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="claude_tokyo" target="claude_osaka" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: Bedrock → KB -->
+        <mxCell id="e6" value="検索" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#116D5B;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="bedrock" target="kb" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: KB → S3原本 (同期) -->
+        <mxCell id="e7" value="同期&#10;(ingestion)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#277116;exitX=0.25;exitY=1;entryX=0.5;entryY=0;" parent="1" source="kb" target="s3_source" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: KB → Titan -->
+        <mxCell id="e8" value="埋め込み生成" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#116D5B;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="kb" target="titan" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: KB → S3 Vectors -->
+        <mxCell id="e9" value="ベクトル書込/検索" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#277116;exitX=0.75;exitY=1;entryX=0.25;entryY=0;" parent="1" source="kb" target="s3vectors" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 矢印: Bedrock → logs -->
+        <mxCell id="e10" value="invocation&#10;logging" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=10;strokeColor=#B0084D;exitX=0.75;exitY=0.75;entryX=0.5;entryY=0;" parent="1" source="bedrock" target="logs" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

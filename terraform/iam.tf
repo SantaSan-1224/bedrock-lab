@@ -29,8 +29,40 @@ resource "aws_iam_policy" "bedrock_invoke" {
           "bedrock:GetFoundationModel",
           "bedrock:ListInferenceProfiles",
           "bedrock:GetInferenceProfile",
+          "bedrock:ListKnowledgeBases",
         ]
         Resource = "*"
+      },
+      {
+        # Phase 2: Knowledge Base への検索 (Retrieve) と検索+生成 (RetrieveAndGenerate)。
+        # RetrieveAndGenerate の生成側は既存の InvokeClaudeViaJapanProfileOnly でカバーされる
+        Sid    = "QueryKnowledgeBase"
+        Effect = "Allow"
+        Action = [
+          "bedrock:Retrieve",
+          "bedrock:RetrieveAndGenerate",
+        ]
+        Resource = ["arn:aws:bedrock:${var.aws_region}:${local.account_id}:knowledge-base/*"]
+      },
+      {
+        # Phase 2 M4: 自前ミニ RAG (方式③) 用。
+        # KB を経由しないため、埋め込みモデルとベクトルインデックスへの直接権限が必要になる。
+        # ①(RetrieveAndGenerate) → ③(自前) の順に必要権限が広がる点は方式比較の観点の1つ
+        Sid      = "MiniRagEmbedding"
+        Effect   = "Allow"
+        Action   = ["bedrock:InvokeModel"]
+        Resource = ["arn:aws:bedrock:${var.aws_region}::foundation-model/amazon.titan-embed-text-v2:0"]
+      },
+      {
+        Sid    = "MiniRagVectorQuery"
+        Effect = "Allow"
+        Action = [
+          "s3vectors:QueryVectors",
+          # QueryVectors で returnMetadata=true を使う場合、GetVectors も必要 (実測)
+          "s3vectors:GetVectors",
+          "s3vectors:GetIndex",
+        ]
+        Resource = [aws_s3vectors_index.kb.index_arn]
       },
     ]
   })

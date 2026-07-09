@@ -17,3 +17,23 @@ output "invocation_log_group" {
   description = "invocation log の CloudWatch Logs グループ名"
   value       = aws_cloudwatch_log_group.invocation_logs.name
 }
+
+output "kb_id" {
+  description = "Knowledge Base の ID (Retrieve / RetrieveAndGenerate で使用)"
+  value       = aws_bedrockagent_knowledge_base.main.id
+}
+
+output "kb_source_bucket" {
+  description = "RAG 原本ドキュメント格納バケット名"
+  value       = aws_s3_bucket.kb_source.id
+}
+
+output "kb_data_source_id" {
+  description = "KB データソース ID (同期ジョブ起動で使用)"
+  value       = aws_bedrockagent_data_source.articles.data_source_id
+}
+
+output "vector_index_arn" {
+  description = "S3 Vectors インデックス ARN (自前ミニ RAG で使用)"
+  value       = aws_s3vectors_index.kb.index_arn
+}
