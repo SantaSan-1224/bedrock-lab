@@ -20,3 +20,6 @@ client/logs/
 # macOS
 .DS_Store
 kb_docs/
+
+# AgentCore デプロイパッケージ (scripts/build_runtime_zip.sh で生成)
+build/

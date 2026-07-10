@@ -240,7 +240,11 @@ class AgentSession:
             # エラーもツール結果として返し、エージェント自身にリカバリさせる
             return {"error": str(err)}
 
-    def ask(self, query: str) -> None:
+    def ask(self, query: str) -> str | None:
+        """1 つの質問についてエージェントループを回し、最終回答を返す。
+
+        CLI (方式②) と AgentCore Runtime (方式①) の両方から呼ばれる。
+        """
         messages = list(self.history)
         messages.append({"role": "user", "content": [{"text": query}]})
         steps: list[dict] = []
@@ -259,7 +263,7 @@ class AgentSession:
                 )
             except (ClientError, BotoCoreError) as err:
                 print(f"モデル呼び出しエラー: {err}", file=sys.stderr)
-                return
+                return None
             llm_ms = int((time.perf_counter() - t0) * 1000)
             usage = resp.get("usage", {})
             total_usage["inputTokens"] += usage.get("inputTokens", 0)
@@ -310,6 +314,7 @@ class AgentSession:
             print(f"\n--- steps: {len(steps)} / usage: in={total_usage['inputTokens']} "
                   f"out={total_usage['outputTokens']} ---")
         self._write_log(query, answer, steps, total_usage)
+        return answer
 
     def _write_log(self, query, answer, steps, usage) -> None:
         record = {
@@ -324,6 +329,19 @@ class AgentSession:
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
         with self.log_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+def build_clients(session: boto3.Session) -> dict:
+    cfg = Config(retries={"max_attempts": 3, "mode": "adaptive"}, read_timeout=300)
+    return {
+        "runtime": session.client("bedrock-runtime", config=cfg),
+        "agent": session.client("bedrock-agent-runtime", config=cfg),
+        # Cost Explorer はグローバルサービス (エンドポイントは us-east-1 固定)。
+        # 管理系 API のためデータ所在方針 (投入データの国内限定) とは別扱い
+        "ce": session.client("ce", config=cfg),
+        "logs": session.client("logs", config=cfg),
+        "tagging": session.client("resourcegroupstaggingapi", config=cfg),
+    }
 
 
 def resolve_kb_id(session) -> str | None:
@@ -348,16 +366,7 @@ def main() -> int:
     args = parser.parse_args()
 
     session = boto3.Session(profile_name=args.profile, region_name=args.region)
-    cfg = Config(retries={"max_attempts": 3, "mode": "adaptive"}, read_timeout=300)
-    clients = {
-        "runtime": session.client("bedrock-runtime", config=cfg),
-        "agent": session.client("bedrock-agent-runtime", config=cfg),
-        # Cost Explorer はグローバルサービス (エンドポイントは us-east-1 固定)。
-        # 管理系 API のためデータ所在方針 (投入データの国内限定) とは別扱い
-        "ce": session.client("ce", config=cfg),
-        "logs": session.client("logs", config=cfg),
-        "tagging": session.client("resourcegroupstaggingapi", config=cfg),
-    }
+    clients = build_clients(session)
     kb_id = args.kb_id or resolve_kb_id(session)
 
     log_path = LOG_DIR / f"agent_{time.strftime('%Y%m%d_%H%M%S')}.jsonl"
