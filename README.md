@@ -186,6 +186,25 @@ python invoke_runtime.py --profile bedrock-lab --verbose
 
 2方式の挙動・運用特性の違いは [docs/agent_comparison.md](docs/agent_comparison.md) 参照。
 
+### 9. ツールの MCP 化 — AgentCore Gateway (Phase 3 おまけ)
+
+エージェント専用だったツール4種を、Gateway 経由で **MCP (Model Context Protocol)** ツールとして公開する。MCP を話す任意のクライアント (自作エージェント、Claude Code 等) から同じツールが使える。
+
+```bash
+# Gateway + ツール Lambda は terraform apply に含まれる (gateway.tf)
+URL=$(cd terraform && terraform output -raw gateway_mcp_url)
+
+# MCP プロトコルを素の HTTP で観察 (initialize → tools/list → tools/call)
+cd client
+python mcp_gateway_client.py --profile bedrock-lab --url "$URL" --list
+python mcp_gateway_client.py --profile bedrock-lab --url "$URL" \
+  --call ops___search_kb --args '{"query": "2048 bytes エラー"}'
+```
+
+- インバウンド認証は **IAM (SigV4)** — Cognito/JWT のセットアップ不要。利用者ロールに `bedrock-agentcore:InvokeGateway` を付与するだけ
+- ツール実装は Lambda (agent_cli.py のツール関数を同梱)。ツール名は `<ターゲット名>___<ツール名>` 形式で公開され、Lambda 側でプレフィックスを剥がす
+- これで同じ「鍵束」(read-only ツールポリシー) の持ち主が3人になった: 利用者ロール (ローカル) / Runtime 実行ロール / **Lambda 実行ロール (Gateway 経由)**
+
 ## 監査・可観測性の確認
 
 | 観点 | 確認先 |
@@ -208,6 +227,7 @@ python invoke_runtime.py --profile bedrock-lab --verbose
 - **Bedrock Agents (Classic) は 2026-07-30 で新規顧客受付を終了**。Phase 3 は公式後継の AgentCore を採用した。AgentCore Runtime は東京対応済み (公式リージョン表で確認、2026-07-10)。
 - **AgentCore の直接コードデプロイ**は Lambda の zip デプロイとほぼ同型 (S3 に zip、実行ロール、エントリポイント指定)。依存は Runtime のアーキテクチャに合わせ arm64 / 対象 Python バージョンで取得する (`uv pip install --python-platform aarch64-manylinux2014`)。
 - **エージェントのツール選択は同一コード・同一質問でも毎回同じにならない** (実測: 絞り込みフォローアップで steps=0 の回と、無料ツールを自発追加する回)。回帰テストは出力一致でなく観点評価で設計する。詳細は [docs/agent_comparison.md](docs/agent_comparison.md)。
+- **AgentCore Gateway のインバウンド認証は IAM (SigV4) が選べる** (`authorizer_type = "AWS_IAM"`)。個人・社内用途なら Cognito/JWT を立てずに MCP サーバをマネージドで公開できる。Gateway のツール名は `<ターゲット名>___<ツール名>` 形式になるため、Lambda 側でプレフィックス除去が必要。
 - Terraform state はローカル管理 (Phase 1)。複数端末で扱う場合は S3 バックエンド + DynamoDB ロックへ移行する。
 - 入力データは基盤モデルの学習に使われない (Bedrock の仕様)。invocation logging を有効にしてもモデル提供元にデータは渡らない。
 
