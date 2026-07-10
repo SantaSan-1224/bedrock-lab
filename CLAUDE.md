@@ -4,9 +4,11 @@
 
 - 自宅用 Bedrock GenAI 環境 (ホームラボ / 学習)。業務 PJ ではない
 - 目的: Bedrock を AWS ガバナンス (IAM・監査・コスト) に正しく組み込む経験
-- **Phase 1 完了** (素のモデル利用、`phase1` タグ)。**Phase 2 (RAG) M1-M5 完了** — KB + S3 Vectors (COSGI2LQOF)、Qiita 35記事+lab-docs 投入済み、chat.py RAGモード + mini_rag.py (3方式)。実測比較は `docs/rag_comparison.md`。残 = M6 Streamlit UI (おまけ)
-- Phase 2 の禁止事項: **本業の顧客情報・PJ資料は投入しない** (公開記事と個人メモのみ)
+- **Phase 1 完了** (素のモデル利用、`phase1` タグ)。**Phase 2 (RAG) 完了** (`phase2` タグ) — KB + S3 Vectors、chat.py RAGモード + mini_rag.py (3方式) + Streamlit UI。実測比較は `docs/rag_comparison.md`
+- **Phase 3 (Agents) M1-M5 完了** — AWS 運用エージェント (read-onlyツール4種: get_cost/search_logs/list_resources/search_kb)。方式②=agent_cli.py (自前 tool use ループ、ローカル) / 方式①=同コードを AgentCore Runtime に直接コードデプロイ (agent_runtime.py + build_runtime_zip.sh + terraform/runtime.tf)。実測比較は `docs/agent_comparison.md`。残 = M6 おまけ (Gateway MCP化 or Streamlit)
+- 禁止事項: **本業の顧客情報・PJ資料は投入しない** (公開記事と個人メモのみ)。エージェントのツールは read-only 限定 (書き込み権限を持たせない)
 - Phase 2 の運用知見: 自作 S3 Vectors インデックスは non-filterable に AMAZON_BEDROCK_TEXT + AMAZON_BEDROCK_METADATA の2つ必須 / カスタムメタデータ 1KB制限 / QueryVectors+returnMetadata には GetVectors 権限 / KB Retrieve は結合チャンクを返す (生チャンクの数倍)
+- Phase 3 の運用知見: Bedrock Agents Classic は 2026-07-30 新規終了 (AgentCore が後継、東京対応済み) / 直接コードデプロイは Lambda zip と同型 (arm64/py3.13 で依存取得) / ツール選択は同一コードでも非決定的に揺れる / Runtime のセッション = microVM のプロセスメモリ (idle timeout が会話の寿命) / KB ID・Runtime ARN はハードコード禁止 (名前から動的解決)
 
 ## 確定事項 (Phase 1)
 

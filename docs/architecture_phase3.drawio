@@ -1,0 +1,91 @@
+<mxfile host="65bd71144e">
+    <diagram id="architecture_phase3" name="phase3">
+        <mxGraphModel dx="704" dy="538" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1120" pageHeight="800" math="0" shadow="0" background="#ffffff">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="bedrock-lab Phase 3: AWS 運用エージェント — 同じコードを2つの実行基盤で動かす" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="16" width="700" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_a" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E8;strokeColor=#D45B07;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="20" width="26" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_a_t" value="エージェントコード (両方式で同一)" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="16" width="200" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_m" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="42" width="26" height="16" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_m_t" value="AWS マネージド" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="790" y="38" width="140" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="lane2" value="方式② ローカル実行 — ツールの鍵は利用者ロール (bedrock-lab-user)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#232F3E;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=12;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="70" width="620" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="user2" value="開発端末" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.user;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="130" width="52" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="loop2" value="agent_cli.py&#xa;tool use ループ + ツール実行&#xa;(--verbose で手元に見える)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E8;strokeColor=#D45B07;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="120" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2_1" value="対話" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#232F3E;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user2" target="loop2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lane1" value="方式① AgentCore Runtime — ツールの鍵は Runtime 実行ロール" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#232F3E;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=12;fontStyle=1;fontColor=#232F3E;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="310" width="620" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="user1" value="開発端末&#xa;(invoke_runtime.py)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3E;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=11;shape=mxgraph.aws4.user;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="390" width="52" height="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="runtime1" value="AgentCore Runtime (東京)&#xa;セッション = microVM 分離 (idle 5分)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;verticalAlign=top;spacingTop=8;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="360" width="260" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="loop1" value="同じエージェントコード&#xa;(zip + agent_runtime.py 40行ラッパ)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E8;strokeColor=#D45B07;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="410" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1_1" value="InvokeAgentRuntime&#xa;(runtimeSessionId)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#232F3E;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user1" target="runtime1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3zip" value="S3&#xa;deployment_package.zip&#xa;(直接コードデプロイ)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;shape=mxgraph.aws4.s3;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="510" width="56" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1_2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#277116;dashed=1;exitX=1;exitY=0.5;entryX=0.25;entryY=1;" parent="1" source="s3zip" target="runtime1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cwl1" value="CloudWatch Logs&#xa;/aws/bedrock-agentcore/...&#xa;(stdout = ツール実行の観測)" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F34482;gradientDirection=north;fillColor=#B0084D;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;shape=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+                    <mxGeometry x="530" y="510" width="56" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1_3" value="stdout" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#B0084D;exitX=0.75;exitY=1;entryX=0.5;entryY=0;" parent="1" source="runtime1" target="cwl1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="tools" value="ツール先 (read-only)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#277116;dashed=1;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=11;fontStyle=1;fontColor=#277116;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="90" width="380" height="330" as="geometry"/>
+                </mxCell>
+                <mxCell id="claude" value="Bedrock Converse API&#xa;Claude Sonnet 4.6&#xa;(jp. 東京/大阪)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="730" y="120" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ce" value="Cost Explorer&#xa;($0.01/req)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="120" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="cwl_tool" value="CloudWatch Logs&#xa;(invocation logging)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="730" y="220" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="tagging" value="Resource Groups&#xa;Tagging API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="220" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="kb" value="Knowledge Base&#xa;+ S3 Vectors&#xa;(Phase 2 資産)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F6F3;strokeColor=#116D5B;fontColor=#232F3E;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="730" y="320" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_t2" value="Converse (toolUse/toolResult)&#xa;+ ツール4種を boto3 で実行" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#D45B07;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="loop2" target="tools" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_t1" value="同じ呼び出し&#xa;(鍵は実行ロール)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=10;strokeColor=#D45B07;exitX=1;exitY=0.5;entryX=0;entryY=0.75;" parent="1" source="loop1" target="tools" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="note" value="ポイント: エージェントコードと IAM ポリシー (鍵束) は両方式で同一。&#xa;変わるのは「どこで実行するか」「誰が鍵を持つか」「ログがどこに出るか」だけ。" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#D45B07;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="440" width="400" height="50" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
