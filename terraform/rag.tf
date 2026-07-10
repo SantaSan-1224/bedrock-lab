@@ -162,6 +162,6 @@ resource "aws_bedrockagent_data_source" "articles" {
     }
   }
 
-  # チャンキングは KB デフォルト (固定 300 トークン / オーバーラップ 20%) でスタート。
+  # チャンキングは KB デフォルト (約 300 トークン・文境界を尊重) でスタート。
   # 検索品質に応じて M2 以降で vector_ingestion_configuration による戦略比較を検討
 }
